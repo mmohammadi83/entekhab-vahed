@@ -5,14 +5,14 @@
 
 template <class T>
 
-class LinkList{
+class Stack{
 private:
     T* array;
     int head;
     int capacity;
 
 public:
-    LinkList(int a){
+    Stack(int a){
         head = -1;
         array = new T[a];
         capacity = a
@@ -58,7 +58,7 @@ public:
         }
     }
 
-    ~LinkList(){
+    ~Stack(){
         delete [] array;
         array = nullptr;
     }

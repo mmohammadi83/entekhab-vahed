@@ -16,13 +16,13 @@ public:
     }
 };
 
-class LinkList{
+class Queue{
 private:
     Node* head;
     Node* tail;
 
 public:
-    LinkList(){
+    Queue(){
         head = tail = nullptr;
     }
     

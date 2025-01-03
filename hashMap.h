@@ -1,15 +1,17 @@
 #pragma once
 #include <iostream>
 
+template <class T>
+
 class Map{
 private:
     class Entry{
     public:
         std::string key;
-        std::string value; 
+        T* value; 
         bool isFull;
 
-        Entry():key("") , value("") , isFull(false){}
+        Entry():key("") , value(nullptr) , isFull(false){}
     };
     int capacity;
     Entry* array;
@@ -29,7 +31,7 @@ public:
         array = new Entry[c];
     }
 
-    void insert(std::string key , std::string value){
+    void insert(std::string key , T* value){
         int i = hash(key);
         while(array[i].isFull){
             if(array[i].key == key){
@@ -53,11 +55,11 @@ public:
         return -1;
     }
 
-    std::string get(std::string key){
+    T* get(std::string key){
         if(exists(key) != -1){
             return array[exists(key)].value;
         }
-        return "Empty";
+        return nullptr;
     }
     ~Map(){
         delete[] array;
