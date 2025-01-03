@@ -2,20 +2,18 @@
 
 #include <iostream>
 
-using namespace std;
-
-template <class T>
-
 class Node{
 public:
     Node* next;
-    T data;
+    std::string data;
 
-    Node(T a){
+    Node(std::string a){
         data = a;
         next = nullptr;
     }
+    ~Node(){
 
+    }
 };
 
 class LinkList{
@@ -28,7 +26,14 @@ public:
         head = tail = nullptr;
     }
     
-    void add(int a){
+    bool isEmpty(){
+        if(!tail){
+            return 1;
+        }
+        else return 0;
+    }
+
+    void enqueue(std::string a){
         Node* temp = new Node(a);
         if(!tail)
             tail = head = temp;
@@ -38,11 +43,11 @@ public:
         }
     }
 
-    int pop(){
-        if(!tail)
-            return -1;
+    std::string dequeue(){
+        if(isEmpty())
+            return nullptr;
         else{
-            int x = tail->data;
+            std::string x = tail->data;
             Node* temp = tail;
             tail = tail->next;
             delete temp;
@@ -51,15 +56,11 @@ public:
         }
     }
 
-    int peak(){
-        if(!tail)
-            return -1;
+    std::string first(){
+        if(isEmpty())
+            return nullptr;
         else{
             return tail->data;
         }
     }
 };
-
-int main(){
-    
-}
