@@ -38,7 +38,9 @@ public:
 
     void replace(Map<T>* temp){
         for(int i=0 ; i<capacity ; i++){
-            temp->insert(array[i]);
+            if(array[i].value){
+                temp->insert(array[i].key , array[i].value);
+            }
         }
     }
 
@@ -78,7 +80,7 @@ public:
     void print(){
         for(int i=0 ; i<capacity ; i++){
             if(array[i].value){
-                cout << "name: " << array[i].value->name << "\t code: " << array[i].key << endl;
+                std::cout << "name: " << array[i].value->getName() << "\t code: " << array[i].key << std::endl;
             }
         }    
     }

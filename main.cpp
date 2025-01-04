@@ -9,10 +9,15 @@ using namespace std;
 
 #define khat cout << "=============================================\a";
 
-void addCourse();
-void addStudentToCourse(Student* );
 class Course;
 class Student;
+
+void addCourse();
+void addStudentToCourse(Student* );
+void addStudent();
+void removeStudentFromCourse(Student* stu);
+
+int capa = 10;
 Map<Course>* courses = new Map<Course>(capa);
 Map<Student>* students = new Map<Student>(capa);
 
@@ -158,13 +163,13 @@ public:
     
 };
 
-int capa = 10;
+
 template <typename T>
 
 Map<T>* loadFactor(Map<T>* temp){
-    if (static_cast<float>(temp->FullIndex)/temp->capacity > 0.66){
+    if (static_cast<float>(temp->fullIndex)/temp->capacity > 0.66){
         capa += 10;
-        Map<T>* map = new Map<T>[capa];
+        Map<T>* map = new Map<T>(capa);
         
         temp->replace(map);
         delete temp;
@@ -283,5 +288,5 @@ void addStudent(){
 }
 
 int main(){
-
+    
 }

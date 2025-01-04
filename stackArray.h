@@ -15,7 +15,7 @@ public:
     Stack(){
         head = -1;
         array = new T[10];
-        capacity = a
+        capacity = 10;
     }
 
     bool isEmpty(){
@@ -34,7 +34,7 @@ public:
     
     void push(T a){
         if(isFull())
-            cout <<"stack is full";
+            std::cout <<"\nstack is full\n";
         else{
             array[++head] = a;
         }
@@ -42,7 +42,7 @@ public:
 
     T pop(){
         if(isEmpty()){
-            cout << "stack is empty";
+            return nullptr;
         }
         else{
             return array[head--];
@@ -53,9 +53,9 @@ public:
 
     T top(){
         
-        else{
-            return array[head];
-        }
+        
+        return array[head];
+        
     }
 
     ~Stack(){
