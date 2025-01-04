@@ -12,9 +12,9 @@ private:
     int capacity;
 
 public:
-    Stack(int a){
+    Stack(){
         head = -1;
-        array = new T[a];
+        array = new T[10];
         capacity = a
     }
 
@@ -34,7 +34,7 @@ public:
     
     void push(T a){
         if(isFull())
-            throw overflow_error("stack is full");
+            cout <<"stack is full";
         else{
             array[++head] = a;
         }
@@ -42,7 +42,7 @@ public:
 
     T pop(){
         if(isEmpty()){
-            throw underflow_error("stack is empty");
+            cout << "stack is empty";
         }
         else{
             return array[head--];

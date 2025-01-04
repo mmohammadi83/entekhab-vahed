@@ -13,7 +13,7 @@ private:
 
         Entry():key("") , value(nullptr) , isFull(false){}
     };
-    int capacity;
+    
     Entry* array;
 
     int hash(std::string key){
@@ -27,11 +27,23 @@ private:
     }
 
 public:
+
+    int capacity;
+    int fullIndex;
+
     Map(int c): capacity(c){
         array = new Entry[c];
+        fullIndex = 0;
+    }
+
+    void replace(Map<T>* temp){
+        for(int i=0 ; i<capacity ; i++){
+            temp->insert(array[i]);
+        }
     }
 
     void insert(std::string key , T* value){
+        if(key == "") return;
         int i = hash(key);
         while(array[i].isFull){
             if(array[i].key == key){
@@ -43,7 +55,7 @@ public:
         array[i].key = key;
         array[i].value = value;
         array[i].isFull = true;
-
+        fullIndex++;
     }
 
     int exists(std::string key){
@@ -55,12 +67,22 @@ public:
         return -1;
     }
 
+    
     T* get(std::string key){
         if(exists(key) != -1){
             return array[exists(key)].value;
         }
         return nullptr;
     }
+    
+    void print(){
+        for(int i=0 ; i<capacity ; i++){
+            if(array[i].value){
+                cout << "name: " << array[i].value->name << "\t code: " << array[i].key << endl;
+            }
+        }    
+    }
+
     ~Map(){
         delete[] array;
         array = nullptr;
