@@ -80,10 +80,13 @@ public:
     void print(){
         for(int i=0 ; i<capacity ; i++){
             if(array[i].value){
-                std::cout << "name: " << array[i].value->getName() << "\t code: " << array[i].key << std::endl;
+                std::cout << "name: " << array[i].value->getName() << "\t code: " 
+                << array[i].key << "\t status: "<< array[i].value->thisStudents.size()
+                <<"/"<<array[i].value->getCapa() << std::endl;
             }
         }    
     }
+    
 
     ~Map(){
         delete[] array;

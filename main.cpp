@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define khat cout << "=============================================\a";
+#define khat cout << "=============================================" << endl;
 
 class Course;
 class Student;
@@ -121,7 +121,7 @@ public:
     }
     void printCourses(){
         for(auto& i: courseList){
-            cout << "name: " << courses->get(i) << "    code: " << i;
+            cout << "name: " << courses->get(i)->getName() << "    code: " << i << endl;
         }
     }
     int searchInCourseList(string code){
@@ -131,10 +131,16 @@ public:
         }
         return -1;
     }
+
+    void removeCourse(){
+        log.push("removeCourse");
+        removeStudentFromCourse(this);
+    }
 };
 
 class Admin : public Member{
 public:
+    Admin(string name, string number , string pass):Member(name , number , pass){}
     bool isAdmin(){
         return 1;
     }
@@ -154,10 +160,11 @@ public:
     }
     void joinStudentToCourse(){
         system("cls");
-        cout <<"enter student number: ";
+        cout <<"enter student number(0 for back): ";
         string num;
         cin>> num ;
-        addStudentToCourse(students->get(num));
+        if(num != "0")
+            addStudentToCourse(students->get(num));
     }
 
     
@@ -236,9 +243,11 @@ void addStudentToCourse(Student* stu){
     khat // tarif dar bala
     courses->print();
     khat
-    cout << "enter course code: ";
+    cout << "enter course code(0 for back): ";
     string code;
     cin>> code;
+    if(code == "0")
+        return;
     Course* temp = courses->get(code);
     if(temp->isFull){
         addWaitingQueue(temp , stu->getNumber());
@@ -286,7 +295,175 @@ void addStudent(){
 
     students = loadFactor<Student>(students);
 }
+void adminMenu(Admin* admin);
+void signUpAdmin(Admin* admin){
+    system("cls");
+    string name , number , pass;
+    cout<< "enter Admin name: ";
+    cin >> name;
+    cout<< "enter Admin number: ";
+    cin >> number;
+    cout<< "enter Admin password: ";
+    cin >> pass;
+
+    admin = new Admin(name , number , pass);
+    adminMenu(admin);
+}
+
+void chekExistAdmin(Admin* admin){
+    if(!admin){
+        cout <<"admin not exists. please first sign up";
+        getch();
+        signUpAdmin(admin);
+    }
+}
+
+void getWaitingQueue(){
+    system("cls");
+    string code;
+    cout<< "enter course code(0 for back): ";
+    cin >> code;
+    if(code == "0")
+        return;
+    cout <<"\nname: "<< courses->get(code)->getName() << endl;
+    courses->get(code)->waitingQueue.print();
+    getch();
+}
+
+void adminMenu(Admin* admin){
+    
+    while(true){
+        system("cls");
+        cout<< "1-add a course\n2-sign up student\n3-add student to course\n4-show courses status\n5-show courses waiting queue\n6-back\nenter: ";
+        int ch;
+        cin>> ch;
+        switch (ch)
+        {
+        case 1:
+            admin->addCourseByAdmin();
+            break;
+        case 2:
+            admin->addStudentByAdmin();
+            break;
+        case 3:
+            admin->joinStudentToCourse();
+            break;
+        case 4:
+            admin->coursesStatus();
+            break;
+        case 5:
+            getWaitingQueue();
+            break;
+        case 6:
+            return;
+        default:
+            break;
+        }
+    }
+}
+void validateAdmin(Admin* admin){
+    if(!admin)
+        chekExistAdmin(admin);
+    else{
+        while(true){
+            string number , pass;
+            system("cls");
+            cout<< "enter Admin number: ";
+            cin >> number;
+            cout<< "enter Admin password: ";
+            cin >> pass;
+
+            if(admin->getNumber() == number && admin->getPass()== pass){
+                adminMenu(admin);
+            }
+            else{
+                cout << "password or username incorrect(enter 0 for exit)";
+                int a = getch();
+                if(a == 0) break;
+            }
+        }
+    }
+}
+
+void studentMenu(Student* stu){
+    while(true){
+        system("cls");
+        cout<< "1-add a course\n2-remove a course\n3-show courses\n4-show given courses\n5-show courses waiting queue\n6-back\nenter: ";
+        int ch;
+        cin>> ch;
+        switch (ch)
+        {
+        case 1:
+            stu->joinStudentToCourse();
+            break;
+        case 2:
+            stu->removeCourse();
+            break;
+        case 3:
+            courses->print();
+            getch();
+            break;
+        case 4:
+            system("cls");
+            khat
+            stu->printCourses();
+            khat
+            getch();
+            break;
+        case 5:
+            getWaitingQueue();
+            break;
+        case 6:
+            return;
+        default:
+            break;
+        }
+    }
+}
+
+void studentValidate(){
+    while(true)
+    {    
+        system("cls");
+        string number , pass;
+        cout<< "enter Student number: ";
+        cin >> number;
+        cout<< "enter Student password: ";
+        cin >> pass;
+
+        if(students->get(number)->getPass() == pass){
+            studentMenu(students->get(number));
+        }
+        else{
+            cout << "password or username incorrect(enter 0 for exit)";
+            int a = getch();
+            if(a == 0) break;
+        }
+    }    
+
+}
+
+void menu(Admin* admin){
+    while(true){
+        system("cls");
+        cout << "1-sign in Admin\n2-sign in student\n3-exit\nenter: ";
+        int ch;
+        cin>> ch;
+        switch (ch)
+        {
+        case 1:
+            validateAdmin(admin);
+            break;
+        case 2:
+            studentValidate();
+            break;
+        default:
+            break;
+        }
+    }
+}
 
 int main(){
-    
+    Admin* admin = nullptr;
+    menu(admin);
 }

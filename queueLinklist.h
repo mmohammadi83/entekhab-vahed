@@ -63,4 +63,12 @@ public:
             return tail->data;
         }
     }
+
+    void print(){
+        Node* temp = tail;
+        while(temp){
+            std::cout << temp->data << std::endl;
+            temp = temp->next;
+        }
+    }
 };
